@@ -5,3 +5,6 @@ app/build/
 local.properties
 .tools/
 *.iml
+*.apk
+*.idsig
+*.jks

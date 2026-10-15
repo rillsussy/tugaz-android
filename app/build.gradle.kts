@@ -10,10 +10,40 @@ android {
 
     defaultConfig {
         applicationId = "com.tugaz.app"
-        minSdk = 26
+        minSdk = 24
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
+    }
+
+    signingConfigs {
+        create("release") {
+            storeFile = file("${rootDir}/tugaz-release.jks")
+            storePassword = "tugaz123"
+            keyAlias = "tugaz"
+            keyPassword = "tugaz123"
+            enableV1Signing = true
+            enableV2Signing = true
+        }
+        getByName("debug") {
+            enableV1Signing = true
+            enableV2Signing = true
+        }
+    }
+
+    buildTypes {
+        release {
+            isMinifyEnabled = false
+            val releaseKeystore = file("${rootDir}/tugaz-release.jks")
+            if (releaseKeystore.exists()) {
+                signingConfig = signingConfigs.getByName("release")
+            } else {
+                signingConfig = signingConfigs.getByName("debug")
+            }
+        }
+        debug {
+            signingConfig = signingConfigs.getByName("debug")
+        }
     }
 
     buildFeatures { compose = true }

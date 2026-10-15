@@ -131,7 +131,7 @@ private fun TugazApp() {
 
 @Composable
 private fun AddTaskCard(title: String, deadline: Long, message: String, onTitle: (String) -> Unit, onDeadline: (Long) -> Unit, onSave: () -> Unit) {
-    Card(Modifier.fillMaxWidth(), RoundedCornerShape(28.dp), BorderStroke(1.5.dp, Color(0xFFD8F5B7)), colors = CardDefaults.cardColors(containerColor = Color(0xEEFFFFFF))) {
+    Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(28.dp), border = BorderStroke(1.5.dp, Color(0xFFD8F5B7)), colors = CardDefaults.cardColors(containerColor = Color(0xEEFFFFFF))) {
         Column(Modifier.padding(18.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
             SectionHeading("Tambah Tugas", "+", Icons.Default.TaskAlt)
             OutlinedTextField(title, onTitle, Modifier.fillMaxWidth(), label = { Text("Nama tugas") }, leadingIcon = { Icon(Icons.Default.Edit, null) }, singleLine = true, shape = RoundedCornerShape(18.dp), colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = Green, unfocusedBorderColor = Color(0xFFC9EEA8), focusedLabelColor = Green))
@@ -163,7 +163,7 @@ private fun AddTaskCard(title: String, deadline: Long, message: String, onTitle:
     }.toSet()
     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
         SectionHeading("Kalender Tugas", "#", Icons.Default.CalendarMonth)
-        Card(Modifier.fillMaxWidth(), RoundedCornerShape(28.dp), BorderStroke(1.5.dp, Color(0xFFD8F5B7)), colors = CardDefaults.cardColors(containerColor = Color(0xEEFFFFFF))) {
+        Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(28.dp), border = BorderStroke(1.5.dp, Color(0xFFD8F5B7)), colors = CardDefaults.cardColors(containerColor = Color(0xEEFFFFFF))) {
             Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 Text(title, Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = Green, fontSize = 22.sp, fontWeight = FontWeight.Black)
                 CalendarRow(listOf("S", "S", "R", "K", "J", "S", "M"), emptySet(), true)
@@ -182,11 +182,11 @@ private fun AddTaskCard(title: String, deadline: Long, message: String, onTitle:
 
 @Composable private fun SectionHeading(text: String, mark: String, icon: androidx.compose.ui.graphics.vector.ImageVector) = Row(verticalAlignment = Alignment.CenterVertically) { Box(Modifier.size(48.dp).clip(CircleShape).background(SoftGreen), contentAlignment = Alignment.Center) { Icon(icon, null, tint = Green) }; Spacer(Modifier.width(12.dp)); Text(text, color = Green, fontSize = 27.sp, fontWeight = FontWeight.Black); Spacer(Modifier.width(5.dp)); Text(mark, color = Yellow, fontSize = 27.sp, fontWeight = FontWeight.Black) }
 
-@Composable private fun EmptyState() = Card(Modifier.fillMaxWidth(), RoundedCornerShape(22.dp), BorderStroke(1.dp, Color(0xFFD8F5B7)), colors = CardDefaults.cardColors(containerColor = Color(0xEEFFFFFF))) { Text("Belum ada tugas. Tambah tugas pertama kamu di atas.", Modifier.padding(18.dp), color = Ink, fontWeight = FontWeight.SemiBold) }
+@Composable private fun EmptyState() = Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(22.dp), border = BorderStroke(1.dp, Color(0xFFD8F5B7)), colors = CardDefaults.cardColors(containerColor = Color(0xEEFFFFFF))) { Text("Belum ada tugas. Tambah tugas pertama kamu di atas.", Modifier.padding(18.dp), color = Ink, fontWeight = FontWeight.SemiBold) }
 
 @Composable private fun TaskCard(task: Task, delete: () -> Unit) {
     val urgent = task.deadlineMillis - System.currentTimeMillis() <= 24 * 60 * 60 * 1000L
-    Card(Modifier.fillMaxWidth(), RoundedCornerShape(22.dp), BorderStroke(1.5.dp, if (urgent) Yellow else Color(0xFFC9EEA8)), colors = CardDefaults.cardColors(containerColor = Color(0xEEFFFFFF))) { Row(Modifier.fillMaxWidth().padding(15.dp), verticalAlignment = Alignment.CenterVertically) { Box(Modifier.size(54.dp).clip(CircleShape).background(if (urgent) Color(0xFFFFF4CF) else SoftGreen), contentAlignment = Alignment.Center) { Icon(Icons.Default.TaskAlt, null, tint = if (urgent) Color(0xFFFFA800) else Green) }; Spacer(Modifier.width(13.dp)); Column(Modifier.weight(1f)) { Text(task.title, color = Ink, fontSize = 18.sp, fontWeight = FontWeight.Black); Text(dateText(task.deadlineMillis), color = if (urgent) Color(0xFFE53935) else Green, fontWeight = FontWeight.Bold) }; IconButton(delete) { Icon(Icons.Default.Delete, "Hapus tugas", tint = Color(0xFF777777)) } } }
+    Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(22.dp), border = BorderStroke(1.5.dp, if (urgent) Yellow else Color(0xFFC9EEA8)), colors = CardDefaults.cardColors(containerColor = Color(0xEEFFFFFF))) { Row(Modifier.fillMaxWidth().padding(15.dp), verticalAlignment = Alignment.CenterVertically) { Box(Modifier.size(54.dp).clip(CircleShape).background(if (urgent) Color(0xFFFFF4CF) else SoftGreen), contentAlignment = Alignment.Center) { Icon(Icons.Default.TaskAlt, null, tint = if (urgent) Color(0xFFFFA800) else Green) }; Spacer(Modifier.width(13.dp)); Column(Modifier.weight(1f)) { Text(task.title, color = Ink, fontSize = 18.sp, fontWeight = FontWeight.Black); Text(dateText(task.deadlineMillis), color = if (urgent) Color(0xFFE53935) else Green, fontWeight = FontWeight.Bold) }; IconButton(delete) { Icon(Icons.Default.Delete, "Hapus tugas", tint = Color(0xFF777777)) } } }
 }
 
 private fun dateText(millis: Long) = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT).format(Date(millis))
